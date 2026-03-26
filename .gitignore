@@ -31,3 +31,6 @@ docker-compose.override.yml
 
 # Internal project spec
 context.md
+
+# Claude Code
+.claude/
