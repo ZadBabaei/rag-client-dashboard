@@ -11,7 +11,7 @@ import evalRouter from "./routes/eval.routes";
 
 const app = express();
 
-app.use(cors({ origin: config.FRONTEND_URL }));
+app.use(cors({ origin: config.FRONTEND_URL, credentials: true }));
 app.use(express.json());
 
 app.get("/health", (req, res) => {

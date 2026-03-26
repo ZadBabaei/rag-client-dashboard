@@ -1,7 +1,9 @@
 import { useCallback, useState } from "react";
 import type { ChatMessage, Citation } from "../types";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "/api";
+
+const USE_STREAMING = false;
 
 interface TokenEvent {
   type: "token";
@@ -13,6 +15,7 @@ interface DoneEvent {
   data: {
     citations?: Citation[];
     conversationId?: string;
+    message?: string;
   };
 }
 
@@ -55,7 +58,7 @@ export function useChat() {
       setIsStreaming(true);
 
       try {
-        const response = await fetch(`${API_BASE_URL}/api/chat`, {
+        const response = await fetch(`${API_BASE_URL}/chat`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -64,7 +67,7 @@ export function useChat() {
             question: trimmedQuestion,
             clientId,
             conversationId,
-            stream: true,
+            stream: USE_STREAMING,
           }),
         });
 
@@ -72,6 +75,23 @@ export function useChat() {
           throw new Error(`Request failed: ${response.status}`);
         }
 
+        const contentType = response.headers.get("content-type") || "";
+
+        // Non-streaming JSON response
+        if (contentType.includes("application/json") || !USE_STREAMING) {
+          const data = await response.json();
+          setMessages((prev) =>
+            appendToLastAssistant(prev, () => ({
+              role: "assistant",
+              content: data.answer || data.message || "",
+              citations: data.citations ?? [],
+            }))
+          );
+          setConversationId(data.conversationId ?? null);
+          return;
+        }
+
+        // SSE streaming response
         if (!response.body) {
           throw new Error("Streaming response body is not available");
         }
@@ -92,26 +112,41 @@ export function useChat() {
             return;
           }
 
-          const parsedEvent = JSON.parse(payload) as ChatStreamEvent;
+          try {
+            const parsedEvent = JSON.parse(payload) as ChatStreamEvent;
 
-          if (parsedEvent.type === "token") {
-            setMessages((prev) =>
-              appendToLastAssistant(prev, (message) => ({
-                ...message,
-                content: message.content + parsedEvent.data,
-              }))
-            );
-            return;
-          }
+            if (parsedEvent.type === "token") {
+              setMessages((prev) =>
+                appendToLastAssistant(prev, (message) => ({
+                  ...message,
+                  content: message.content + parsedEvent.data,
+                }))
+              );
+              return;
+            }
 
-          if (parsedEvent.type === "done") {
-            setMessages((prev) =>
-              appendToLastAssistant(prev, (message) => ({
-                ...message,
-                citations: parsedEvent.data.citations ?? [],
-              }))
-            );
-            setConversationId(parsedEvent.data.conversationId ?? null);
+            if (parsedEvent.type === "done") {
+              // Handle "no info" case where message comes in done event
+              if (parsedEvent.data.message) {
+                setMessages((prev) =>
+                  appendToLastAssistant(prev, (message) => ({
+                    ...message,
+                    content: message.content || parsedEvent.data.message || "",
+                    citations: parsedEvent.data.citations ?? [],
+                  }))
+                );
+              } else {
+                setMessages((prev) =>
+                  appendToLastAssistant(prev, (message) => ({
+                    ...message,
+                    citations: parsedEvent.data.citations ?? [],
+                  }))
+                );
+              }
+              setConversationId(parsedEvent.data.conversationId ?? null);
+            }
+          } catch {
+            // Skip malformed events
           }
         };
 

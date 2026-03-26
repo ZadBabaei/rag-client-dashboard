@@ -38,7 +38,10 @@ export async function extractProfile(text: string): Promise<ExtractedProfile> {
       return {};
     }
 
-    const parsed = JSON.parse(content) as {
+    // Strip markdown code fences if present
+    const cleanContent = content.replace(/^```(?:json)?\s*\n?/i, "").replace(/\n?```\s*$/i, "").trim();
+
+    const parsed = JSON.parse(cleanContent) as {
       aum?: number | null;
       riskTolerance?: string | null;
       goals?: string[] | null;

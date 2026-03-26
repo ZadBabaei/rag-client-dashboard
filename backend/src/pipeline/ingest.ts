@@ -45,8 +45,7 @@ export async function ingestDocument(
           content,
           embedding,
           "chunkIndex",
-          "tokenCount",
-          "createdAt"
+          "tokenCount"
         )
         VALUES (
           gen_random_uuid(),
@@ -54,8 +53,7 @@ export async function ingestDocument(
           ${chunk.content},
           ${toVectorLiteral(embeddings[index])},
           ${chunk.chunkIndex},
-          ${chunk.tokenCount},
-          NOW()
+          ${chunk.tokenCount}
         )
       `,
     );
