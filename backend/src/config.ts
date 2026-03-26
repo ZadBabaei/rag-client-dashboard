@@ -1,10 +1,10 @@
 import { z } from "zod";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ path: "../.env" });
 
 const envSchema = z.object({
-  DATABASE_URL: z.string().url(),
+  DATABASE_URL: z.string().min(1),
   OPENAI_API_KEY: z.string().min(1),
   ANTHROPIC_API_KEY: z.string().optional(),
   LLM_PROVIDER: z.enum(["openai", "anthropic"]).default("openai"),
