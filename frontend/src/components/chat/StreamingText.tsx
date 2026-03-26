@@ -1,7 +1,15 @@
-// TODO: Renders tokens as they arrive via SSE
-// - Accepts a stream of tokens and progressively displays them
-// - Shows cursor/blinking indicator while streaming
+interface StreamingTextProps {
+  text: string;
+}
 
-export default function StreamingText() {
-  return <span>TODO: StreamingText - Task 13</span>;
+export default function StreamingText({ text }: StreamingTextProps) {
+  return (
+    <span className="whitespace-pre-wrap break-words">
+      {text}
+      <span
+        aria-hidden="true"
+        className="ml-0.5 inline-block h-5 w-2 animate-pulse bg-gray-600 align-[-0.125rem]"
+      />
+    </span>
+  );
 }
