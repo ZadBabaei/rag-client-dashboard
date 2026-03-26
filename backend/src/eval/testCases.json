@@ -1,0 +1,74 @@
+[
+  {
+    "id": "equity-allocation",
+    "question": "What is the client's current target equity allocation?",
+    "expectedAnswer": "The answer should state the target equity allocation percentage from the client's investment policy or portfolio strategy document.",
+    "expectedSourceDocuments": ["Client Investment Policy Statement.pdf"]
+  },
+  {
+    "id": "emergency-reserve",
+    "question": "How much emergency cash reserve does the plan recommend keeping on hand?",
+    "expectedAnswer": "The answer should describe the recommended emergency reserve amount or number of months of expenses and cite the planning document.",
+    "expectedSourceDocuments": ["Comprehensive Financial Plan 2026.pdf"]
+  },
+  {
+    "id": "beneficiary-designations",
+    "question": "What are the beneficiary designations listed for the IRA and taxable brokerage account?",
+    "expectedAnswer": "The answer should identify the named beneficiaries for the IRA and the taxable brokerage account using the estate or account documents.",
+    "expectedSourceDocuments": ["Estate Planning Summary.pdf", "Account Registration Details.pdf"]
+  },
+  {
+    "id": "roth-conversions",
+    "question": "What guidance does the plan provide on Roth conversions over the next three years?",
+    "expectedAnswer": "The answer should summarize the recommended Roth conversion strategy, timing, or tax bracket considerations for the next three years.",
+    "expectedSourceDocuments": ["Tax Planning Memo 2026.pdf", "Retirement Income Strategy.pdf"]
+  },
+  {
+    "id": "rmd-age",
+    "question": "At what age do required minimum distributions begin according to the retirement plan notes?",
+    "expectedAnswer": "The answer should state the age at which required minimum distributions begin as described in the retirement planning materials.",
+    "expectedSourceDocuments": ["Retirement Income Strategy.pdf"]
+  },
+  {
+    "id": "concentrated-stock",
+    "question": "Which documents explain the recommendation to reduce concentrated employer stock exposure?",
+    "expectedAnswer": "The answer should explain the concentration risk recommendation and mention the documents that support trimming employer stock exposure.",
+    "expectedSourceDocuments": ["Portfolio Risk Review.pdf", "Comprehensive Financial Plan 2026.pdf"]
+  },
+  {
+    "id": "education-funding",
+    "question": "What annual 529 contribution amount is recommended for the two children?",
+    "expectedAnswer": "The answer should state the recommended annual 529 savings contribution amount for each child or in total, based on the education funding plan.",
+    "expectedSourceDocuments": ["Education Funding Plan.pdf"]
+  },
+  {
+    "id": "umbrella-coverage",
+    "question": "Does the insurance review recommend increasing umbrella liability coverage, and to what amount?",
+    "expectedAnswer": "The answer should state whether an umbrella coverage increase is recommended and the proposed coverage amount.",
+    "expectedSourceDocuments": ["Insurance Review.pdf"]
+  },
+  {
+    "id": "poa-page",
+    "question": "What page in the estate planning summary discusses powers of attorney?",
+    "expectedAnswer": "The answer should cite the estate planning summary and identify the page that discusses powers of attorney.",
+    "expectedSourceDocuments": ["Estate Planning Summary.pdf"]
+  },
+  {
+    "id": "withdrawal-sequence",
+    "question": "What is the recommended withdrawal sequence between taxable, tax-deferred, and Roth accounts?",
+    "expectedAnswer": "The answer should describe the planned withdrawal order among taxable, tax-deferred, and Roth accounts.",
+    "expectedSourceDocuments": ["Retirement Income Strategy.pdf", "Tax Planning Memo 2026.pdf"]
+  },
+  {
+    "id": "missing-mortgage-rate",
+    "question": "What is the exact mortgage rate on the vacation property loan?",
+    "expectedAnswer": "If the documents do not contain this information, the answer should clearly say that the information was not found in the provided context.",
+    "expectedSourceDocuments": []
+  },
+  {
+    "id": "tax-loss-harvesting",
+    "question": "Which source document supports the recommendation to harvest tax losses in the international equity sleeve?",
+    "expectedAnswer": "The answer should identify the document that specifically supports tax-loss harvesting in the international equity sleeve and include a citation.",
+    "expectedSourceDocuments": ["Tax Planning Memo 2026.pdf", "Portfolio Risk Review.pdf"]
+  }
+]

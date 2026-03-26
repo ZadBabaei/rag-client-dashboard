@@ -34,3 +34,7 @@ context.md
 
 # Claude Code
 .claude/
+
+# Markdown files (except README)
+*.md
+!README.md
