@@ -1,8 +1,44 @@
-// TODO: Task 4 — Document text extraction
-// - parsePdf(buffer: Buffer): Promise<ParsedDocument>
-// - parseTxt(buffer: Buffer): Promise<ParsedDocument>
-// - parseDocx(buffer: Buffer): Promise<ParsedDocument>
-// - parseDocument(buffer: Buffer, mimeType: string): Promise<ParsedDocument> — dispatcher
-// - Uses pdf-parse for PDF, mammoth for DOCX, Buffer.toString for TXT
+import mammoth from "mammoth";
+import pdfParse from "pdf-parse";
 
-export {};
+import { UploadError } from "../errors";
+
+export interface ParsedDocument {
+  text: string;
+  pageCount?: number;
+}
+
+export async function parsePdf(buffer: Buffer): Promise<ParsedDocument> {
+  const data = await pdfParse(buffer);
+
+  return {
+    text: data.text,
+    pageCount: data.numpages,
+  };
+}
+
+export async function parseTxt(buffer: Buffer): Promise<ParsedDocument> {
+  return { text: buffer.toString("utf-8") };
+}
+
+export async function parseDocx(buffer: Buffer): Promise<ParsedDocument> {
+  const result = await mammoth.extractRawText({ buffer });
+
+  return { text: result.value };
+}
+
+export async function parseDocument(
+  buffer: Buffer,
+  mimeType: string,
+): Promise<ParsedDocument> {
+  switch (mimeType) {
+    case "application/pdf":
+      return parsePdf(buffer);
+    case "text/plain":
+      return parseTxt(buffer);
+    case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+      return parseDocx(buffer);
+    default:
+      throw new UploadError("Unsupported file type");
+  }
+}

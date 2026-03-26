@@ -1,4 +1,17 @@
-// TODO: Task 9 — Eval route
-// - POST /api/eval/run — trigger eval suite and return EvalReport
+import { Router } from "express";
 
-export {};
+import { runEval } from "../eval/runner";
+
+const router = Router();
+
+router.post("/run", async (req, res, next) => {
+  try {
+    void req;
+    const report = await runEval();
+    res.status(200).json(report);
+  } catch (error) {
+    next(error);
+  }
+});
+
+export default router;

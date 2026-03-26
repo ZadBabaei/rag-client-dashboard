@@ -1,7 +1,24 @@
-// TODO: Task 4 — Multer configuration
-// - Memory storage (buffer)
-// - File size limit: 10MB
-// - File filter: only PDF, TXT, DOCX
-// - Export configured multer middleware
+import multer from "multer";
 
-export {};
+import { UploadError } from "../errors";
+
+const allowedMimeTypes = [
+  "application/pdf",
+  "text/plain",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
+
+const storage = multer.memoryStorage();
+
+const fileFilter: multer.Options["fileFilter"] = (req, file, cb) => {
+  if (!allowedMimeTypes.includes(file.mimetype)) {
+    cb(new UploadError("Unsupported file type"));
+    return;
+  }
+
+  cb(null, true);
+};
+
+const limits = { fileSize: 10 * 1024 * 1024 };
+
+export const upload = multer({ storage, fileFilter, limits });
