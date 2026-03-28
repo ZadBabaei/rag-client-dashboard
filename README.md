@@ -39,7 +39,7 @@ A full-stack dashboard where financial advisors can upload client documents, vie
 | Backend | Node.js + Express + TypeScript |
 | Database | PostgreSQL + pgvector |
 | Embeddings | OpenAI text-embedding-3-small |
-| LLM | OpenAI GPT-5.4 / Claude 3.5 Sonnet |
+| LLM | OpenAI GPT-5.4 / Claude 4.6 Sonnet |
 | PDF Parsing | pdf-parse |
 | Chunking | LangChain.js text splitters |
 | ORM | Prisma |
